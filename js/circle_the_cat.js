@@ -1,5 +1,5 @@
 function getMouseButton(e) {
-  return(e? e.which: window.event.button);
+  return (e ? e.which : window.event.button);
 }
 
 function Circle(x, y, r) {
@@ -7,7 +7,10 @@ function Circle(x, y, r) {
   this.radius = r;
   this.x = x;
   this.y = y;
-  this.pos = {x:x, y:y};
+  this.pos = {
+    x: x,
+    y: y
+  };
   this.f = 0;
   this.g = 0;
   this.h = 0;
@@ -15,7 +18,6 @@ function Circle(x, y, r) {
   this.fill = false;
   this.hasCat = false;
   this.parent = null;
-  
   this.updateColor = function() {
     self.fill = true;
   };
@@ -37,12 +39,10 @@ function Circle(x, y, r) {
 
 function Cat(column, row) {
   var self = this;
-
   this.col = column;
   this.row = row;
   this.x = 0;
   this.y = 0;
-  
   this.updateCatPosition = function(col, row) {
     self.col = col;
     self.row = row;
@@ -52,20 +52,23 @@ function Cat(column, row) {
     self.y += position.y;
   };
   this.getCurrentCatPosition = function() {
-    return {col: self.col, row: self.row};
+    return {
+      col: self.col,
+      row: self.row
+    };
   };
   this.getCurrentCatCoordinate = function() {
-    return {x: self.x, y: self.y};
+    return {
+      x: self.x,
+      y: self.y
+    };
   };
 }
-
 
 function Game(ctx) {
   var self = this;
   this.ctx = ctx;
-  
   this.board = new Board(ctx);
-  
   this.run = function() {
     self.start();
   };
@@ -73,7 +76,6 @@ function Game(ctx) {
     self.createBoard();
     self.registerMouse();
   };
-  
   this.onMouseDown = function(event) {
     if (self.board.lock) {
       return;
@@ -82,39 +84,42 @@ function Game(ctx) {
       self.onLeftClick(event);
     }
   };
-  
   // When the left mouse button is clicked, find the position.
   this.onLeftClick = function(e) {
     var canvas = self.board.div;
     var scroll = document.body.scrollTop;
     var winLose = 0;
-    for( var posX = 0, posY = 0; canvas; canvas = canvas.offsetParent ) {
+    for (var posX = 0, posY = 0; canvas; canvas = canvas.offsetParent) {
       posX += canvas.offsetLeft;
       posY += canvas.offsetTop;
     }
-    if(self.board.updateCircle({x: e.clientX - posX, y: e.clientY - (posY-scroll)})) {
+    if (self.board.updateCircle({
+      x: e.clientX - posX,
+      y: e.clientY - (posY - scroll)
+    })) {
       winLose = self.board.moveCat();
       if (winLose.winGame) {
         self.winGame();
-      }
-      else if (winLose.loseGame) {
+      } else if (winLose.loseGame) {
         self.loseGame();
       }
     }
-    
   };
-  
   this.registerMouse = function() {
     self.board.div.onmousedown = self.onMouseDown;
-    self.board.div.onclick = function(){return false;};
-    self.board.div.ondblclick = function(){return false;};
-    self.board.div.oncontextmenu = function(){return false;};
+    self.board.div.onclick = function() {
+      return false;
+    };
+    self.board.div.ondblclick = function() {
+      return false;
+    };
+    self.board.div.oncontextmenu = function() {
+      return false;
+    };
   };
-  
   this.createBoard = function() {
-     self.board.create();
+    self.board.create();
   };
-  
   this.winGame = function() {
     document.getElementById('panelTitle').innerHTML = 'You Win!';
     $('#panel').fadeIn(function() {});
@@ -126,7 +131,6 @@ function Game(ctx) {
     setTimeout(run, 2000);
   };
 }
-
 
 function run() {
   $('#panel').fadeOut(function() {});
@@ -140,12 +144,10 @@ function supports_canvas() {
   return !!document.createElement('canvas').getContext;
 }
 
-
 function checkCanvas() {
-  if (!supports_canvas()) { 
+  if (!supports_canvas()) {
     return false;
-  }
-  else {
+  } else {
     var dummy_canvas = document.createElement('canvas');
     var context = dummy_canvas.getContext('2d');
     return typeof context.fillText == 'function';
@@ -153,10 +155,9 @@ function checkCanvas() {
 }
 
 function startUp() {
-  if (checkCanvas()) { 
+  if (checkCanvas()) {
     run();
-  }
-  else {
+  } else {
     alert("Sorry, but your browser does not support the canvas tag.");
   }
 }
