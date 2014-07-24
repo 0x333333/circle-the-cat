@@ -49,10 +49,10 @@ function Board(ctx) {
   };
   
   this.pickRandomDone = function() {
-    // pick random number of dots between 5 and 12
+    // pick random number of dots between 8 and 12
     var now = new Date();
     var seed = now.getSeconds();
-    var numOfDotsAtStart = Math.floor(Math.random(seed) * 4 + 5);
+    var numOfDotsAtStart = Math.floor(Math.random(seed) * 4 + 8);
   
     for (var k = 0; k < numOfDotsAtStart; k++) {
       var i, j;
