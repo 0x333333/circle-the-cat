@@ -1,7 +1,7 @@
 function Board(ctx) {
   var self = this;
   
-  this.numOfBlocks = 11;
+  this.numOfBlocks = 10;
   
   this.radius = 20;
   this.horizontalOffset = 20;
