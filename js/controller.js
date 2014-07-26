@@ -5,22 +5,24 @@ angular.module('controller', [])
     $ionicSideMenuDelegate.toggleLeft();
   };
 
-  $scope.levelCoef1 = 3;
-  $scope.levelCoef2 = 5;
+  $scope.steps = 0;
+  $scope.theme = 'positive';
+  $scope.levelCoef1 = 5;
+  $scope.levelCoef2 = 8;
 
   $scope.changeLevel = function(level) {
     if (level === 0) {
-      $scope.levelCoef1 = 4;
-      $scope.levelCoef2 = 8;
+      $scope.levelCoef1 = 10;
+      $scope.levelCoef2 = 10;
     } else if (level === 1) {
-      $scope.levelCoef1 = 3;
-      $scope.levelCoef2 = 5;
+      $scope.levelCoef1 = 5;
+      $scope.levelCoef2 = 10;
     } else if (level === 2) {
-      $scope.levelCoef1 = 2;
+      $scope.levelCoef1 = 5;
       $scope.levelCoef2 = 3;
     } else if (level === 3) {
-      $scope.levelCoef1 = 1;
-      $scope.levelCoef2 = 1;
+      $scope.levelCoef1 = 3;
+      $scope.levelCoef2 = 2;
     }
     $scope.level = level;
     $scope.run();
@@ -28,7 +30,7 @@ angular.module('controller', [])
 
   function Board(ctx) {
     var self = this;
-    this.numOfBlocks = 10;
+    this.numOfBlocks = 11;
     this.radius = 20;
     this.horizontalOffset = 20;
     this.verticalOffset = 30;
@@ -287,6 +289,8 @@ angular.module('controller', [])
             y: 0
           };
       }
+      $scope.steps ++;
+      $scope.$apply();
       self.updateCat(moveToColumn, moveToRow, currentPosition);
       self.loopCatMovement(positionShift, self.cat.getCurrentCatCoordinate().x);
     };
@@ -673,8 +677,8 @@ angular.module('controller', [])
     };
     this.winGame = function() {
       $ionicPopup.alert({
-        title: 'Woooho!',
-        content: 'Budy, you win!'
+        title: 'Woohoo!',
+        content: 'Budy, you win by ' + $scope.steps + ' Steps!'
       }).then(function(res) {
         $scope.run();
       });
@@ -691,11 +695,12 @@ angular.module('controller', [])
 
   $scope.run = function() {
     setTimeout(function() {
+      $scope.steps = 0;
       var canvas = document.getElementById('canvas');
       var ctx = canvas.getContext('2d');
       var game = new Game(ctx);
       game.run();
-    }, 100);
+    }, 300);
   };
 
   function supports_canvas() {
