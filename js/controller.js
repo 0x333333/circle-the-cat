@@ -5,6 +5,27 @@ angular.module('controller', [])
     $ionicSideMenuDelegate.toggleLeft();
   };
 
+  $scope.levelCoef1 = 3;
+  $scope.levelCoef2 = 5;
+
+  $scope.changeLevel = function(level) {
+    if (level === 0) {
+      $scope.levelCoef1 = 4;
+      $scope.levelCoef2 = 8;
+    } else if (level === 1) {
+      $scope.levelCoef1 = 3;
+      $scope.levelCoef2 = 5;
+    } else if (level === 2) {
+      $scope.levelCoef1 = 2;
+      $scope.levelCoef2 = 3;
+    } else if (level === 3) {
+      $scope.levelCoef1 = 1;
+      $scope.levelCoef2 = 1;
+    }
+    $scope.level = level;
+    $scope.run();
+  };
+
   function Board(ctx) {
     var self = this;
     this.numOfBlocks = 10;
@@ -52,7 +73,7 @@ angular.module('controller', [])
       // pick random number of dots between 8 and 12
       var now = new Date();
       var seed = now.getSeconds();
-      var numOfDotsAtStart = Math.floor(Math.random(seed) * 5 + 5);
+      var numOfDotsAtStart = Math.floor(Math.random(seed) * $scope.levelCoef1 + $scope.levelCoef2);
       for (var k = 0; k < numOfDotsAtStart; k++) {
         var i, j;
         // Make sure that a random dot is not in the center of the board
@@ -669,11 +690,12 @@ angular.module('controller', [])
   }
 
   $scope.run = function() {
-    $('#panel').fadeOut(function() {});
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
-    var game = new Game(ctx);
-    game.run();
+    setTimeout(function() {
+      var canvas = document.getElementById('canvas');
+      var ctx = canvas.getContext('2d');
+      var game = new Game(ctx);
+      game.run();
+    }, 100);
   };
 
   function supports_canvas() {
