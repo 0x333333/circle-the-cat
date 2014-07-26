@@ -45,7 +45,7 @@ function Board(ctx) {
     // pick random number of dots between 8 and 12
     var now = new Date();
     var seed = now.getSeconds();
-    var numOfDotsAtStart = Math.floor(Math.random(seed) * 4 + 8);
+    var numOfDotsAtStart = Math.floor(Math.random(seed) * 5 + 5);
     for (var k = 0; k < numOfDotsAtStart; k++) {
       var i, j;
       // Make sure that a random dot is not in the center of the board
